@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en" class="transition-colors duration-300">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whatfix Learning Hub</title>
+    <!-- Tailwind CSS CDN with Dark Mode Class capability -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        wfOrange: {
+                            DEFAULT: '#FF5A00',
+                            hover: '#E04F00',
+                            light: '#FFF0E6',
+                            glow: 'rgba(255, 90, 0, 0.15)'
+                        },
+                        wfNavy: {
+                            DEFAULT: '#0B1A30',
+                            light: '#1E293B',
+                            bg: '#050D1A',
+                            dark: '#030811',
+                            cardDark: '#0D1E36',
+                            glow: 'rgba(11, 26, 48, 0.15)'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* Slowly moving changing gradient header bar featuring the entire color spectrum */
+        @keyframes movingGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .moving-gradient-bar {
+            background: linear-gradient(
+                -45deg, 
+                #ef4444, /* Red */
+                #f97316, /* Orange */
+                #eab308, /* Yellow */
+                #22c55e, /* Green */
+                #06b6d4, /* Cyan */
+                #3b82f6, /* Blue */
+                #6366f1, /* Indigo */
+                #a855f7, /* Purple */
+                #ec4899, /* Pink */
+                #ef4444  /* Red (for seamless loop) */
+            );
+            background-size: 800% 800%;
+            animation: movingGradient 22s linear infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Customized scrollbar for elegant styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(241, 245, 249, 0.5);
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+
+        .video-card {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        /* Interactive dynamic gradient borders on hover */
+        .video-card-mirror:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 30px -10px rgba(11, 26, 48, 0.15);
+            border-color: #0B1A30;
+        }
+        .dark .video-card-mirror:hover {
+            box-shadow: 0 20px 30px -10px rgba(11, 26, 48, 0.5);
+            border-color: #38bdf8;
+        }
+        
+        .video-card-roleplay:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 30px -10px rgba(255, 90, 0, 0.2);
+            border-color: #FF5A00;
+        }
+        .dark .video-card-roleplay:hover {
+            box-shadow: 0 20px 30px -10px rgba(255, 90, 0, 0.4);
+            border-color: #FF5A00;
+        }
+    </style>
+</head>
+<body class="bg-[#F8FAFC] dark:bg-wfNavy-dark min-h-screen flex flex-col antialiased text-slate-800 dark:text-slate-100 transition-colors duration-300 relative overflow-x-hidden">
+
+    <!-- Decorative Soft Glow Spheres (Background visual interest) -->
+    <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-tr from-wfOrange/10 to-transparent blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-[10%] right-[-10%] w-[45vw] h-[45vw] rounded-full bg-gradient-to-bl from-sky-500/10 dark:from-sky-500/5 to-transparent blur-[120px] pointer-events-none"></div>
+
+    <!-- Top Accent Brand Line with All-Color Moving Gradient Animation -->
+    <div class="h-1.5 w-full moving-gradient-bar"></div>
+
+    <!-- Top Header -->
+    <header class="bg-white/80 dark:bg-wfNavy-cardDark/80 backdrop-blur-md border-b border-slate-100 dark:border-slate-800 sticky top-0 z-40 px-6 py-4 transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            
+            <!-- Left Header Controls (Theme Switcher) -->
+            <div class="w-36 flex justify-start items-center gap-2">
+                <button onclick="toggleTheme()" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-wfNavy text-slate-600 dark:text-yellow-400 flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-sm" title="Toggle Light/Dark Theme">
+                    <i id="theme-icon" class="fa-solid fa-moon text-sm"></i>
+                </button>
+            </div>
+            
+            <!-- Logo / Title -->
+            <div class="flex flex-col items-center">
+                <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-wfNavy dark:text-white flex items-center gap-1.5">
+                    <span class="bg-gradient-to-r from-wfNavy to-slate-700 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">Whatfix</span> 
+                    <span class="text-wfOrange bg-gradient-to-r from-wfOrange to-orange-500 bg-clip-text text-transparent">Learning Hub</span>
+                </h1>
+                <p class="text-[9px] text-slate-400 dark:text-slate-500 font-bold tracking-widest uppercase mt-0.5">Central Hub of Training Guides</p>
+            </div>
+            
+            <!-- Hidden Admin view controller (Triggered dynamically with URL hash #admin) -->
+            <div class="w-36 flex justify-end">
+                <div id="admin-controls"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full z-10 relative">
+        
+        <!-- Category Selector Tabs -->
+        <div class="flex justify-center mb-8">
+            <div class="bg-slate-200/50 dark:bg-wfNavy/50 p-1.5 rounded-full flex gap-1 relative shadow-inner border border-slate-200/20">
+                <button onclick="switchTab('Mirror')" id="tab-Mirror" class="px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 relative z-10 flex items-center gap-2">
+                    <i class="fa-solid fa-shapes text-sm"></i> Mirror
+                </button>
+                <button onclick="switchTab('AI Roleplay')" id="tab-AI" class="px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 relative z-10 flex items-center gap-2">
+                    <i class="fa-solid fa-robot text-sm"></i> AI Roleplay
+                </button>
+            </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="max-w-md mx-auto mb-10">
+            <div class="relative">
+                <input type="text" id="search-input" oninput="renderVideos()" placeholder="Search training guides..." class="w-full px-5 py-3 pl-11 border border-slate-200 dark:border-slate-800 rounded-full focus:outline-none focus:border-wfOrange dark:focus:border-wfOrange focus:ring-4 focus:ring-wfOrange/10 shadow-sm transition-all text-sm text-slate-700 dark:text-slate-100 bg-white dark:bg-wfNavy-cardDark/90">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500"></i>
+                <button onclick="clearSearch()" id="clear-search-btn" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 hidden">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Videos Grid -->
+        <div id="video-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Rendered dynamically by javascript -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-wfNavy-cardDark border-t border-slate-100 dark:border-slate-800 py-6 text-center text-xs text-slate-400 dark:text-slate-500 mt-12 transition-colors duration-300 z-10">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>© 2026 Whatfix Learning Hub. Internal training portal.</p>
+            <div class="flex gap-4">
+                <a href="https://whatfix.com" target="_blank" class="hover:text-wfOrange transition-colors">Whatfix Website</a>
+                <span>•</span>
+                <span class="text-slate-500">Secure Environment</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL 1: Admin Login Modal -->
+    <div id="login-modal" class="fixed inset-0 bg-slate-950/60 dark:bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-all duration-300">
+        <div class="bg-white dark:bg-wfNavy-cardDark rounded-2xl max-w-sm w-full p-6 shadow-xl border border-slate-100 dark:border-slate-800 mx-4 transform scale-95 transition-all duration-300">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-wfNavy dark:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-lock text-wfOrange"></i> Admin Portal
+                </h3>
+                <button onclick="closeLoginModal()" class="text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition-colors">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-wfNavy dark:text-slate-400 uppercase tracking-wider mb-1">Username</label>
+                    <input type="text" id="login-username" class="w-full px-3 py-2 border border-slate-200 dark:border-slate-800 rounded-lg focus:outline-none focus:border-wfOrange dark:focus:border-wfOrange text-sm bg-white dark:bg-wfNavy/50" placeholder="whatfix" required>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-wfNavy dark:text-slate-400 uppercase tracking-wider mb-1">Password</label>
+                    <input type="password" id="login-password" class="w-full px-3 py-2 border border-slate-200 dark:border-slate-800 rounded-lg focus:outline-none focus:border-wfOrange dark:focus:border-wfOrange text-sm bg-white dark:bg-wfNavy/50" placeholder="••••••••" required>
+                </div>
+                <div id="login-error" class="text-red-500 text-xs hidden flex items-center gap-1">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Invalid credentials. Please try again.
+                </div>
+                <button type="submit" class="w-full py-2.5 bg-wfNavy hover:bg-wfNavy-light dark:bg-wfOrange dark:hover:bg-wfOrange-hover text-white font-semibold rounded-lg text-sm transition-colors shadow-md shadow-wfNavy/10">
+                    Log In
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: Add / Edit Video Modal -->
+    <div id="video-modal" class="fixed inset-0 bg-slate-950/60 dark:bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-all duration-300">
+        <div class="bg-white dark:bg-wfNavy-cardDark rounded-2xl max-w-lg w-full p-6 shadow-xl border border-slate-100 dark:border-slate-800 mx-4 transform scale-95 transition-all duration-300">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="modal-title" class="text-xl font-bold text-wfNavy dark:text-white">Add New Video</h3>
+                <button onclick="closeVideoModal()" class="text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition-colors">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <form id="video-form" onsubmit="saveVideo(event)" class="space-y-4">
+                <input type="hidden" id="video-id">
+                
+                <div>
+                    <label class="block text-xs font-bold text-wfNavy dark:text-slate-400 uppercase tracking-wider mb-1">Target Section</label>
+                    <select id="video-section" class="w-full px-3 py-2 border border-slate-200 dark:border-slate-800 rounded-lg focus:outline-none focus:border-wfOrange dark:focus:border-wfOrange text-sm bg-white dark:bg-wfNavy/50 text-slate-800 dark:text-slate-100" required>
+                        <option value="Mirror">Mirror</option>
+                        <option value="AI Roleplay">AI Roleplay</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-xs font-bold text-wfNavy dark:text-slate-400 uppercase tracking-wider mb-1">Video Title</label>
+                    <input type="text" id="video-title-input" class="w-full px-3 py-2 border border-slate-200 dark:border-slate-800 rounded-lg focus:outline-none focus:border-wfOrange dark:focus:border-wfOrange text-sm bg-white dark:bg-wfNavy/50 text-slate-800 dark:text-slate-100" placeholder="e.g., Guide Flow Setup Walkthrough" required>
+                </div>
+                
+                <div>
+                    <label class="block text-xs font-bold text-wfNavy dark:text-slate-400 uppercase tracking-wider mb-1">Description</label>
+                    <textarea id="video-desc" rows="3" class="w-full px-3 py-2 border border-slate-200 dark:border-slate-800 rounded-lg focus:outline-none focus:border-wfOrange dark:focus:border-wfOrange text-sm bg-white dark:bg-wfNavy/50 text-slate-800 dark:text-slate-100" placeholder="Provide a brief explanation of the tutorial steps..." required></textarea>
+                </div>
+                
+                <div>
+                    <label class="block text-xs font-bold text-wfNavy dark:text-slate-400 uppercase tracking-wider mb-1">Google Drive Link</label>
+                    <input type="url" id="video-url" class="w-full px-3 py-2 border border-slate-200 dark:border-slate-800 rounded-lg focus:outline-none focus:border-wfOrange dark:focus:border-wfOrange text-sm bg-white dark:bg-wfNavy/50 text-slate-800 dark:text-slate-100" placeholder="e.g., https://drive.google.com/file/d/VIDEO_ID/view" required>
+                    <div class="mt-2 p-3 bg-wfOrange-light/50 dark:bg-wfOrange-dark/20 border border-wfOrange/10 rounded-lg">
+                        <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                            <i class="fa-solid fa-circle-info text-wfOrange mr-0.5"></i> 
+                            <strong>Crucial for Preview:</strong> Ensure file share permissions on Google Drive are configured as <strong>"Anyone with link can view"</strong> for iframe support.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+                    <button type="button" onclick="closeVideoModal()" class="px-4 py-2 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-sm font-semibold transition-colors">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-wfOrange hover:bg-wfOrange-hover text-white rounded-lg text-sm font-semibold transition-colors shadow-md shadow-wfOrange/10">
+                        Save Video
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 3: Cinema Lightbox Overlay Frame -->
+    <div id="lightbox-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center hidden opacity-0 transition-all duration-300">
+        <div class="relative w-full max-w-4xl p-4 mx-4 flex flex-col transform scale-95 transition-all duration-300">
+            <!-- Close Button -->
+            <button onclick="closeLightbox()" class="absolute -top-12 right-4 text-white hover:text-wfOrange transition-all flex items-center gap-1 text-sm font-semibold py-2">
+                Close <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            
+            <!-- Video Player Frame with Centering and Loading Indicator -->
+            <div class="bg-black rounded-2xl overflow-hidden aspect-video shadow-2xl border border-slate-800 flex items-center justify-center relative">
+                <!-- Inner Loader -->
+                <div class="absolute inset-0 flex items-center justify-center bg-slate-900 z-0">
+                    <div class="flex flex-col items-center gap-2">
+                        <i class="fa-solid fa-circle-notch animate-spin text-3xl text-wfOrange"></i>
+                        <span class="text-xs text-slate-400 font-semibold tracking-wide">Loading Video Preview...</span>
+                    </div>
+                </div>
+                <!-- Frame (Centered) -->
+                <iframe id="lightbox-iframe" class="w-full h-full relative z-10 block" src="" allow="autoplay" allowfullscreen></iframe>
+            </div>
+            
+            <!-- Metadata Area -->
+            <div class="mt-4 p-5 bg-white/10 dark:bg-slate-900/50 backdrop-blur-md rounded-2xl text-white border border-white/5 shadow-lg">
+                <h3 id="lightbox-title" class="text-lg md:text-xl font-bold mb-1.5 text-white"></h3>
+                <p id="lightbox-desc" class="text-slate-300 text-sm leading-relaxed"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS Application Logic -->
+    <script>
+        // State Management
+        let videos = JSON.parse(localStorage.getItem('whatfix_library_videos')) || [];
+        let currentTab = 'Mirror';
+        let isAdmin = sessionStorage.getItem('whatfix_admin_logged_in') === 'true';
+        let editingVideoId = null;
+
+        // Populate Mock Data initially to prevent blank pages
+        const defaultVideos = [
+            {
+                id: '1',
+                title: 'Building Interactive Flows in Mirror',
+                description: 'Explore custom guide branching, visual context triggers, and step configuration panels under the new Mirror onboarding dashboard.',
+                url: 'https://drive.google.com/file/d/1_9vMscV7Cg65T3Z_Wj8tT3L6-YV8U7Bf/view',
+                section: 'Mirror'
+            },
+            {
+                id: '2',
+                title: 'Mirror Theme & Style Customization',
+                description: 'Customize tooltips, highlight elements, brand alignment, and color variations dynamically to match native styling.',
+                url: 'https://drive.google.com/file/d/1_9vMscV7Cg65T3Z_Wj8tT3L6-YV8U7Bf/view',
+                section: 'Mirror'
+            },
+            {
+                id: '3',
+                title: 'AI Roleplay: Handling Crucial Objections',
+                description: 'Practical exercise workflow handling complex client queries and mock assessment strategies with simulated actors.',
+                url: 'https://drive.google.com/file/d/1_9vMscV7Cg65T3Z_Wj8tT3L6-YV8U7Bf/view',
+                section: 'AI Roleplay'
+            },
+            {
+                id: '4',
+                title: 'Reviewing AI Performance Analytics Matrices',
+                description: 'Understanding criteria maps, metric metrics score loops, and direct action checklists generated by AI post-simulation.',
+                url: 'https://drive.google.com/file/d/1_9vMscV7Cg65T3Z_Wj8tT3L6-YV8U7Bf/view',
+                section: 'AI Roleplay'
+            }
+        ];
+
+        // Store default mock data initially
+        if (videos.length === 0) {
+            videos = defaultVideos;
+            localStorage.setItem('whatfix_library_videos', JSON.stringify(videos));
+        }
+
+        // Initialize Router and Theme state on Load
+        window.onload = function() {
+            initTheme();
+            checkHashRoute();
+            switchTab(currentTab);
+        };
+
+        // Window hash router watcher for #admin
+        window.addEventListener('hashchange', function() {
+            checkHashRoute();
+        });
+
+        function checkHashRoute() {
+            if (window.location.hash === '#admin') {
+                if (!isAdmin) {
+                    openLoginModal();
+                } else {
+                    renderAdminControls();
+                }
+            } else {
+                // Return to user view
+                renderAdminControls();
+            }
+        }
+
+        // Theme Light/Dark Mode Manager
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            renderThemeToggle();
+        }
+
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+            renderThemeToggle();
+        }
+
+        // Sync icons inside Theme controls
+        function renderThemeToggle() {
+            const icon = document.getElementById('theme-icon');
+            if (document.documentElement.classList.contains('dark')) {
+                icon.className = 'fa-solid fa-sun text-sm text-yellow-400';
+            } else {
+                icon.className = 'fa-solid fa-moon text-sm text-slate-600';
+            }
+        }
+
+        // Convert normal google drive file share URLs to embedded preview streams
+        function getDriveEmbedUrl(url) {
+            if (!url) return '';
+            const regExp1 = /\/file\/d\/([a-zA-Z0-9_-]+)/;
+            const regExp2 = /[?&]id=([a-zA-Z0-9_-]+)/;
+            const regExp3 = /\/d\/([a-zA-Z0-9_-]+)/;
+            
+            let match = url.match(regExp1);
+            if (match && match[1]) {
+                return `https://drive.google.com/file/d/${match[1]}/preview`;
+            }
+            match = url.match(regExp2);
+            if (match && match[1]) {
+                return `https://drive.google.com/file/d/${match[1]}/preview`;
+            }
+            match = url.match(regExp3);
+            if (match && match[1]) {
+                return `https://drive.google.com/file/d/${match[1]}/preview`;
+            }
+            return url;
+        }
+
+        // Render Action Buttons in header dynamically (Only when logged in or #admin path accessed)
+        function renderAdminControls() {
+            const container = document.getElementById('admin-controls');
+            if (isAdmin && window.location.hash === '#admin') {
+                container.innerHTML = `
+                    <div class="flex items-center gap-2 bg-slate-100 dark:bg-wfNavy p-1 rounded-full border border-slate-200 dark:border-slate-800 shadow-inner animate-fade-in">
+                        <button onclick="openVideoModal()" class="bg-wfOrange hover:bg-wfOrange-hover text-white text-[11px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1 transition-all shadow-sm">
+                            <i class="fa-solid fa-plus"></i> Add
+                        </button>
+                        <button onclick="handleLogout()" class="bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-[11px] font-bold px-2.5 py-1.5 rounded-full transition-all" title="Logout">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </button>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = ''; // Keep UI cleanly unexposed for normal users
+            }
+        }
+
+        // Tab selection logic
+        function switchTab(tabName) {
+            currentTab = tabName;
+            
+            const tabMirror = document.getElementById('tab-Mirror');
+            const tabAI = document.getElementById('tab-AI');
+            
+            if (currentTab === 'Mirror') {
+                tabMirror.className = "px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 relative z-10 flex items-center gap-2 bg-wfNavy dark:bg-sky-500 text-white shadow-md shadow-wfNavy/10";
+                tabAI.className = "px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 relative z-10 flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-wfNavy dark:hover:text-slate-100";
+            } else {
+                tabMirror.className = "px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 relative z-10 flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-wfNavy dark:hover:text-slate-100";
+                tabAI.className = "px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 relative z-10 flex items-center gap-2 bg-wfOrange text-white shadow-md shadow-wfOrange/10";
+            }
+            
+            renderVideos();
+        }
+
+        // Render dynamic card matrices with strict preview center alignment
+        function renderVideos() {
+            const grid = document.getElementById('video-grid');
+            grid.innerHTML = '';
+            
+            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+            const clearBtn = document.getElementById('clear-search-btn');
+            
+            if (searchQuery.length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+            
+            const filteredVideos = videos.filter(v => 
+                v.section === currentTab && 
+                (v.title.toLowerCase().includes(searchQuery) || v.description.toLowerCase().includes(searchQuery))
+            );
+            
+            if (filteredVideos.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full flex flex-col items-center justify-center p-12 text-center animate-fade-in">
+                        <div class="w-16 h-16 bg-slate-100 dark:bg-wfNavy-cardDark rounded-full flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-video-slash text-slate-400 text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-wfNavy dark:text-white">No guides matches your search</h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm mt-1 max-w-sm">
+                            ${(isAdmin && window.location.hash === '#admin') ? 'No entries found. Add your first guide inside this category using the header panel.' : 'Please try adjusting your search filters.'}
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredVideos.forEach(video => {
+                const embedUrl = getDriveEmbedUrl(video.url);
+                const isMirror = video.section === 'Mirror';
+                const hoverClass = isMirror ? 'video-card-mirror' : 'video-card-roleplay';
+                
+                const cardHtml = `
+                    <div onclick="openLightbox('${video.id}')" class="video-card ${hoverClass} bg-white dark:bg-wfNavy-cardDark rounded-2xl overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col animate-fade-in cursor-pointer group">
+                        
+                        <!-- Fixed Center-Aligned Video Preview Container with Play Overlay icon -->
+                        <div class="relative aspect-video w-full bg-black flex items-center justify-center overflow-hidden border-b border-slate-100 dark:border-slate-800">
+                            ${embedUrl ? `
+                                <div class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none bg-slate-950/20 group-hover:bg-slate-950/40 transition-colors duration-300">
+                                    <div class="w-12 h-12 rounded-full bg-white/90 dark:bg-wfOrange/90 text-wfNavy dark:text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-300">
+                                        <i class="fa-solid fa-play text-sm ml-0.5"></i>
+                                    </div>
+                                </div>
+                                <iframe 
+                                    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full block select-none pointer-events-none z-0 scale-105" 
+                                    src="${embedUrl}" 
+                                    allow="autoplay"
+                                    loading="lazy">
+                                </iframe>
+                            ` : `
+                                <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 p-4 text-center">
+                                    <i class="fa-solid fa-triangle-exclamation text-3xl mb-2 text-wfOrange"></i>
+                                    <span class="text-xs">Preview Not Connected</span>
+                                </div>
+                            `}
+                        </div>
+                        
+                        <!-- Metadata Information Block -->
+                        <div class="p-5 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h4 class="font-bold text-base text-wfNavy dark:text-slate-100 mb-2 line-clamp-2 leading-tight group-hover:text-wfOrange transition-colors">${video.title}</h4>
+                                <p class="text-slate-500 dark:text-slate-400 text-xs mb-4 line-clamp-3 leading-relaxed">${video.description}</p>
+                            </div>
+                            
+                            <div class="flex items-center justify-between mt-auto pt-3 border-t border-slate-100 dark:border-slate-800">
+                                <a href="${video.url}" target="_blank" onclick="event.stopPropagation();" class="text-xs font-bold text-wfOrange hover:text-wfOrange-hover dark:text-sky-400 dark:hover:text-sky-300 flex items-center gap-1 transition-colors">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Open in Drive
+                                </a>
+                                
+                                ${(isAdmin && window.location.hash === '#admin') ? `
+                                    <div class="flex gap-1.5 animate-fade-in" onclick="event.stopPropagation();">
+                                        <button onclick="openEditModal('${video.id}')" class="p-1.5 rounded-lg bg-slate-100 dark:bg-wfNavy text-slate-600 dark:text-slate-400 hover:bg-wfOrange-light hover:text-wfOrange transition-all" title="Edit Video">
+                                            <i class="fa-solid fa-pen text-xs"></i>
+                                        </button>
+                                        <button onclick="deleteVideo('${video.id}')" class="p-1.5 rounded-lg bg-slate-100 dark:bg-wfNavy text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 transition-all" title="Delete Video">
+                                            <i class="fa-solid fa-trash text-xs"></i>
+                                        </button>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.insertAdjacentHTML('beforeend', cardHtml);
+            });
+        }
+
+        // Search clear action
+        function clearSearch() {
+            document.getElementById('search-input').value = '';
+            renderVideos();
+        }
+
+        // Modal transition controllers
+        function showModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.querySelector('.transform').classList.remove('scale-95');
+                modal.querySelector('.transform').classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.add('opacity-0');
+            modal.querySelector('.transform').classList.remove('scale-100');
+            modal.querySelector('.transform').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Internal Lightbox Cinematique View Manager
+        function openLightbox(id) {
+            const video = videos.find(v => v.id === id);
+            if (!video) return;
+            
+            const embedUrl = getDriveEmbedUrl(video.url);
+            document.getElementById('lightbox-iframe').src = embedUrl;
+            document.getElementById('lightbox-title').innerText = video.title;
+            document.getElementById('lightbox-desc').innerText = video.description;
+            
+            showModal('lightbox-modal');
+        }
+
+        // Lightbox cleanup triggers
+        function closeLightbox() {
+            document.getElementById('lightbox-iframe').src = ''; // Force pause embed stream
+            closeModal('lightbox-modal');
+        }
+
+        // Admin Auth Overlay Controller
+        function openLoginModal() {
+            document.getElementById('login-username').value = '';
+            document.getElementById('login-password').value = '';
+            document.getElementById('login-error').classList.add('hidden');
+            showModal('login-modal');
+        }
+
+        function closeLoginModal() {
+            closeModal('login-modal');
+            window.location.hash = ''; // reset hash route on cancel
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('login-username').value;
+            const p = document.getElementById('login-password').value;
+            const errorEl = document.getElementById('login-error');
+            
+            if (u === 'whatfix' && p === 'Whatfix@2026') {
+                errorEl.classList.add('hidden');
+                isAdmin = true;
+                sessionStorage.setItem('whatfix_admin_logged_in', 'true');
+                closeModal('login-modal');
+                renderAdminControls();
+                renderVideos(); 
+            } else {
+                errorEl.classList.remove('hidden');
+            }
+        }
+
+        function handleLogout() {
+            if (confirm('Exit and lock the Admin Workspace?')) {
+                isAdmin = false;
+                sessionStorage.removeItem('whatfix_admin_logged_in');
+                window.location.hash = ''; // Clear routes
+                renderAdminControls();
+                renderVideos();
+            }
+        }
+
+        // Add & Edit dynamic form controllers
+        function openVideoModal() {
+            editingVideoId = null;
+            document.getElementById('modal-title').innerText = 'Add New Video';
+            document.getElementById('video-form').reset();
+            document.getElementById('video-id').value = '';
+            document.getElementById('video-section').value = currentTab;
+            showModal('video-modal');
+        }
+
+        function openEditModal(id) {
+            const video = videos.find(v => v.id === id);
+            if (!video) return;
+            
+            editingVideoId = id;
+            document.getElementById('modal-title').innerText = 'Edit Video details';
+            document.getElementById('video-id').value = video.id;
+            document.getElementById('video-section').value = video.section;
+            document.getElementById('video-title-input').value = video.title;
+            document.getElementById('video-desc').value = video.description;
+            document.getElementById('video-url').value = video.url;
+            
+            showModal('video-modal');
+        }
+
+        function closeVideoModal() {
+            closeModal('video-modal');
+        }
+
+        function saveVideo(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('video-id').value || Date.now().toString();
+            const section = document.getElementById('video-section').value;
+            const title = document.getElementById('video-title-input').value.trim();
+            const description = document.getElementById('video-desc').value.trim();
+            const url = document.getElementById('video-url').value.trim();
+            
+            const videoData = { id, section, title, description, url };
+            
+            if (editingVideoId) {
+                const index = videos.findIndex(v => v.id === editingVideoId);
+                if (index !== -1) {
+                    videos[index] = videoData;
+                }
+            } else {
+                videos.push(videoData);
+            }
+            
+            localStorage.setItem('whatfix_library_videos', JSON.stringify(videos));
+            closeVideoModal();
+            renderVideos();
+        }
+
+        function deleteVideo(id) {
+            if (confirm('Are you sure you want to delete this resource from the training library?')) {
+                videos = videos.filter(v => v.id !== id);
+                localStorage.setItem('whatfix_library_videos', JSON.stringify(videos));
+                renderVideos();
+            }
+        }
+    </script>
+</body>
+</html>
